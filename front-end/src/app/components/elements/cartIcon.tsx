@@ -1,7 +1,7 @@
 import { useCart } from "@/app/contexts/cart";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import CartModal from "../modules/modals/cartModal";
+import CartModal from "../modules/modals/cart/cartModal";
 import { toggleModal } from "@/app/utils/toggleModal";
 
 export default function CartIcon() {

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Product } from "../../types/product";
 import { useCart } from "@/app/contexts/cart";
-import ProductDetailsModal from "../modules/modals/productDetailsModal";
+import ProductDetailsModal from "../modules/modals/productDetails/productDetailsModal";
 import { useEffect, useState } from "react";
 import { toggleModal } from "@/app/utils/toggleModal";
 

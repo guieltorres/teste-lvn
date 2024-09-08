@@ -101,6 +101,7 @@ export default function CartModal({ toggleModal }: CartModalProps) {
                         <td className="px-6 py-4">
                           <div className="flex items-center">
                             <button
+                              data-testid={`decrement-button-${item.product.id}`}
                               className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
                               type="button"
                               onClick={() => removeItem(item.product)}
@@ -126,6 +127,7 @@ export default function CartModal({ toggleModal }: CartModalProps) {
                               <p>{item.quantity}</p>
                             </div>
                             <button
+                              data-testid={`increment-button-${item.product.id}`}
                               className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200"
                               type="button"
                               onClick={() => addItem(item.product)}
