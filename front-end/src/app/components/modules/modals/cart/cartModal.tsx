@@ -106,7 +106,7 @@ export default function CartModal({ toggleModal }: CartModalProps) {
                               type="button"
                               onClick={() => removeItem(item.product)}
                             >
-                              <span className="sr-only">Quantity button</span>
+                              <span className="sr-only">Decrease quantity</span>
                               <svg
                                 className="w-3 h-3"
                                 aria-hidden="true"
@@ -132,7 +132,9 @@ export default function CartModal({ toggleModal }: CartModalProps) {
                               type="button"
                               onClick={() => addItem(item.product)}
                             >
-                              <span className="sr-only">Quantity button</span>
+                              <span className="sr-only">
+                                Increment quantity button
+                              </span>
                               <svg
                                 className="w-3 h-3"
                                 aria-hidden="true"
