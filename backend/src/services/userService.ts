@@ -3,6 +3,7 @@ import { Address } from "../models/addressModel";
 import { addressService } from "./addressService";
 import { UserStatus } from "../enums/userStatus";
 import { UserErrorMessage } from "../enums/userErrorMessage";
+import bcrypt from "bcrypt";
 
 export const userService = {
   getUserById: async (userId: string) => {
@@ -15,6 +16,8 @@ export const userService = {
 
   createUser: async (userData: any) => {
     try {
+      const hashedPassword = await bcrypt.hash(userData.password, 12);
+
       let addresses: string[] = [];
       if (userData.addresses) {
         const insertedAddresses = await addressService.insertAddresses(
@@ -26,15 +29,20 @@ export const userService = {
       const newUser = new User({
         name: userData.name,
         email: userData.email,
-        password: userData.password,
         age: userData.age,
-        status: "active",
+        status: UserStatus.ACTIVE,
         addresses: addresses,
+        username: userData.username,
+        password: hashedPassword,
       });
 
       await newUser.save();
       return await newUser.populate("addresses");
-    } catch (err) {
+    } catch (err: any) {
+      console.log("🚀 ~ createUser: ~ err:", err);
+      if (err.code === 11000) {
+        throw new Error(UserErrorMessage.USER_ALREADY_EXISTS);
+      }
       throw new Error(UserErrorMessage.UNABLE_TO_SAVE_USER);
     }
   },

@@ -6,7 +6,7 @@ export const register = async (req: Request, res: Response) => {
   try {
     const auth = await authService.register(req.body);
 
-    res.status(201).send(AuthSuccessMessage.REGISTRATION_SUCCESS);
+    res.status(201).send({ message: AuthSuccessMessage.REGISTRATION_SUCCESS });
   } catch (err: any) {
     res.status(500).send({ message: err.message });
   }

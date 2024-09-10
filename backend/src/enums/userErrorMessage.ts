@@ -4,4 +4,5 @@ export enum UserErrorMessage {
   UNABLE_TO_UPDATE_USER = "Unable to update user.",
   UNABLE_TO_DELETE_USER = "Unable to delete user.",
   UNABLE_TO_RETRIEVE_ADDRESSES = "Unable to retrieve addresses.",
+  USER_ALREADY_EXISTS = "User already exists.",
 }

@@ -1,26 +1,15 @@
 import { AuthErrorMessage } from "../enums/authErrorMessage";
-import { Auth } from "../models/authModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userService } from "./userService";
 import { secretKey } from "../constants/secret";
+import { User } from "../models/userModel";
 
 export const authService = {
   register: async (authData: any) => {
     try {
-      const { username, password } = authData;
-
       const user = await userService.createUser(authData);
-
-      const hashedPassword = await bcrypt.hash(password, 12);
-
-      const auth = new Auth({
-        username,
-        password: hashedPassword,
-        userId: user._id,
-      });
-      await auth.save();
-      return auth;
+      return user;
     } catch (err: any) {
       throw new Error(err.message);
     }
@@ -28,18 +17,18 @@ export const authService = {
 
   login: async (username: string, password: string) => {
     try {
-      const auth = await findAuth(username);
-      await validatePassword(password, auth.password);
-      const token = generateToken(auth.userId.toString());
-      return { token, userId: auth.userId };
+      const user = await findUser(username);
+      await validatePassword(password, user.password);
+      const token = generateToken(user._id.toString());
+      return { token, userId: user._id };
     } catch (err: any) {
       throw new Error(AuthErrorMessage.AUTHENTICATION_FAILED);
     }
   },
 };
 
-const findAuth = async (username: string) => {
-  const user = await Auth.findOne({ username });
+const findUser = async (username: string) => {
+  const user = await User.findOne({ username });
   if (!user) {
     throw new Error(AuthErrorMessage.AUTHENTICATION_FAILED);
   }

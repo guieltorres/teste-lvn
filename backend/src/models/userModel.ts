@@ -11,6 +11,8 @@ const userSchema = new mongoose.Schema({
     default: UserStatus.ACTIVE,
   },
   addresses: [{ type: mongoose.Schema.Types.ObjectId, ref: "Address" }],
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
 });
 
 export const User = mongoose.model("User", userSchema);
