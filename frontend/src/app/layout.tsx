@@ -10,7 +10,7 @@ const jost = Jost({
 });
 
 export const metadata: Metadata = {
-  title: "Liven - Shop",
+  title: "lvn - Shop",
   icons: {
     icon: "assets/images/favicon.ico",
   },

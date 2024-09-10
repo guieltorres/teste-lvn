@@ -18,10 +18,10 @@ export default function Header() {
             height={0}
             src="/assets/images/logo.svg"
             className="h-8 w-8"
-            alt="Liven Shop Logo"
+            alt="lvn shop logo"
           />
           <span className="px-3 self-center text-xl font-semibold whitespace-nowrap text-gray-900">
-            Liven Shop
+            lvn shop
           </span>
         </a>
         <div className="flex items-center md:order-2">
