@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-const secretKey = process.env.JWT_SECRET || "secret-key";
+import { secretKey } from "../constants/secret";
 
 export const decodeToken = (token: string) => {
   const bearerToken = token.split(" ")[1];

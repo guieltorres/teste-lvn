@@ -3,8 +3,7 @@ import { Auth } from "../models/authModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userService } from "./userService";
-
-const secretKey = process.env.JWT_SECRET || "secret-key";
+import { secretKey } from "../constants/secret";
 
 export const authService = {
   register: async (authData: any) => {
