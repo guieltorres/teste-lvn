@@ -8,7 +8,15 @@ export const getUser = async (req: Request, res: Response) => {
   try {
     const { userId } = decodeToken(req.headers.authorization || "");
     const user = await userService.getUserById(userId);
-    res.status(200).send(user);
+    const responseUser = {
+      _id: user!._id,
+      name: user!.name,
+      age: user!.age,
+      email: user!.email,
+      status: user!.status,
+      addresses: user!.addresses,
+    };
+    res.status(200).send(responseUser);
   } catch (err: any) {
     res.status(404).send({ message: err.message });
   }
