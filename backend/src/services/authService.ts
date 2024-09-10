@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import { userService } from "./userService";
 
 const secretKey = process.env.JWT_SECRET || "secret-key";
-console.log("🚀 ~ secretKey:", secretKey);
 
 export const authService = {
   register: async (authData: any) => {
@@ -32,7 +31,7 @@ export const authService = {
     try {
       const auth = await findAuth(username);
       await validatePassword(password, auth.password);
-      const token = generateToken(auth._id.toString());
+      const token = generateToken(auth.userId.toString());
       return { token, userId: auth.userId };
     } catch (err: any) {
       throw new Error(AuthErrorMessage.AUTHENTICATION_FAILED);

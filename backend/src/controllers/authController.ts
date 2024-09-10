@@ -8,7 +8,7 @@ export const register = async (req: Request, res: Response) => {
 
     res.status(201).send(AuthSuccessMessage.REGISTRATION_SUCCESS);
   } catch (err: any) {
-    res.status(500).send(err.message);
+    res.status(500).send({ message: err.message });
   }
 };
 
@@ -20,6 +20,6 @@ export const login = async (req: Request, res: Response) => {
 
     res.status(200).send({ token, userId });
   } catch (err: any) {
-    res.status(401).send(err.message);
+    res.status(401).send({ message: err.message });
   }
 };
