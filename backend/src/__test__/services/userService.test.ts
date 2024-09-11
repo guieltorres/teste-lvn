@@ -8,6 +8,7 @@ import { Chance } from "chance";
 import { secretKey } from "../../constants/secret";
 import { AuthErrorMessage } from "../../enums/authErrorMessage";
 import { UserSuccessMessage } from "../../enums/userSuccessMessage";
+import { UserErrorMessage } from "../../enums/userErrorMessage";
 
 const app = createServer();
 
@@ -113,6 +114,32 @@ describe("userService", () => {
 
       expect(statusCode).toBe(401);
       expect(body.error).toBe(AuthErrorMessage.INVALID_TOKEN);
+    });
+
+    it("should throw a error when update to a existing email", async () => {
+      const user1 = await userService.createUser(userPayload);
+
+      const user2 = await userService.createUser({
+        ...userPayload,
+        email: chance.email(),
+        username: chance.word(),
+      });
+
+      const token = jwt.sign({ userId: user1._id.toString() }, secretKey, {
+        expiresIn: "1h",
+      });
+
+      const updatedUserPayload = {
+        email: user2.email,
+      };
+
+      const { body, statusCode } = await supertest(app)
+        .patch("/api/user")
+        .set("Authorization", `Bearer ${token}`)
+        .send(updatedUserPayload);
+
+      expect(statusCode).toBe(401);
+      expect(body.error).toBe(UserErrorMessage.EMAIL_ALREADY_IN_USE);
     });
   });
 
