@@ -75,7 +75,7 @@ export const userService = {
   deleteUser: async (userId: string) => {
     const user = await User.findById(userId);
 
-    if (!user) {
+    if (!user || user.status === UserStatus.INACTIVE) {
       throw new Error(UserErrorMessage.USER_NOT_FOUND);
     }
 

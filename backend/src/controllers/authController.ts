@@ -4,7 +4,7 @@ import { AuthSuccessMessage } from "../enums/authSuccessMessage";
 
 export const register = async (req: Request, res: Response) => {
   try {
-    const auth = await authService.register(req.body);
+    const user = await authService.register(req.body);
 
     res.status(201).send({ message: AuthSuccessMessage.REGISTRATION_SUCCESS });
   } catch (err: any) {

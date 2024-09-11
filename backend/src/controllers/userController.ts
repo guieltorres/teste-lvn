@@ -3,6 +3,7 @@ import { User } from "../models/userModel";
 import { Address } from "../models/addressModel";
 import { userService } from "../services/userService";
 import { decodeToken } from "../utils/decodeToken";
+import { UserSuccessMessage } from "../enums/userSuccessMessage";
 
 export const getUser = async (req: Request, res: Response) => {
   try {
@@ -47,7 +48,7 @@ export const deleteUser = async (req: Request, res: Response) => {
     const { userId } = decodeToken(req.headers.authorization || "");
     const deletedUser = await userService.deleteUser(userId);
 
-    res.status(200).send({ user: deletedUser });
+    res.status(200).send({ message: UserSuccessMessage.USER_DELETED });
   } catch (err: any) {
     res.status(400).send({ message: err.message });
   }

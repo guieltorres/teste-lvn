@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import { userService } from "./userService";
 import { secretKey } from "../constants/secret";
 import { User } from "../models/userModel";
+import { UserStatus } from "../enums/userStatus";
 
 export const authService = {
   register: async (authData: any) => {
@@ -18,6 +19,9 @@ export const authService = {
   login: async (username: string, password: string) => {
     try {
       const user = await findUser(username);
+      if (user.status === UserStatus.INACTIVE) {
+        throw new Error(AuthErrorMessage.ACCOUNT_INACTIVE);
+      }
       await validatePassword(password, user.password);
       const token = generateToken(user._id.toString());
       return { token, userId: user._id };
