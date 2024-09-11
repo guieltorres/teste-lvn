@@ -82,4 +82,8 @@ export const userService = {
     user.status = UserStatus.INACTIVE;
     return await user.save();
   },
+
+  findUserByUsername: async (username: string) => {
+    return await User.findOne({ username });
+  },
 };

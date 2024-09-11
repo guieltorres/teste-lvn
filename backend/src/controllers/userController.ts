@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { User } from "../models/userModel";
-import { Address } from "../models/addressModel";
 import { userService } from "../services/userService";
 import { decodeToken } from "../utils/decodeToken";
 import { UserSuccessMessage } from "../enums/userSuccessMessage";
+import { Types } from "mongoose";
+import { AuthErrorMessage } from "../enums/authErrorMessage";
 
 export const getUser = async (req: Request, res: Response) => {
   try {
@@ -19,7 +19,7 @@ export const getUser = async (req: Request, res: Response) => {
     };
     res.status(200).send(responseUser);
   } catch (err: any) {
-    res.status(404).send({ message: err.message });
+    res.status(404).send({ error: err.message });
   }
 };
 
@@ -39,7 +39,7 @@ export const updateUser = async (req: Request, res: Response) => {
 
     res.status(200).send({ user: updatedUser });
   } catch (err: any) {
-    res.status(400).send({ message: err.message });
+    res.status(401).send({ error: err.message });
   }
 };
 
@@ -50,6 +50,6 @@ export const deleteUser = async (req: Request, res: Response) => {
 
     res.status(200).send({ message: UserSuccessMessage.USER_DELETED });
   } catch (err: any) {
-    res.status(400).send({ message: err.message });
+    res.status(400).send({ error: err.message });
   }
 };

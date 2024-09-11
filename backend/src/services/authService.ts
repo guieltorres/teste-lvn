@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userService } from "./userService";
 import { secretKey } from "../constants/secret";
-import { User } from "../models/userModel";
 import { UserStatus } from "../enums/userStatus";
 
 export const authService = {
@@ -19,20 +18,20 @@ export const authService = {
   login: async (username: string, password: string) => {
     try {
       const user = await findUser(username);
+      await validatePassword(password, user.password);
       if (user.status === UserStatus.INACTIVE) {
         throw new Error(AuthErrorMessage.ACCOUNT_INACTIVE);
       }
-      await validatePassword(password, user.password);
       const token = generateToken(user._id.toString());
-      return { token, userId: user._id };
+      return { token };
     } catch (err: any) {
-      throw new Error(AuthErrorMessage.AUTHENTICATION_FAILED);
+      throw new Error(err.message);
     }
   },
 };
 
 const findUser = async (username: string) => {
-  const user = await User.findOne({ username });
+  const user = await userService.findUserByUsername(username);
   if (!user) {
     throw new Error(AuthErrorMessage.AUTHENTICATION_FAILED);
   }

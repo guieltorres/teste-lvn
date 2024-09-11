@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { addressService } from "../services/addressService";
-import { Address } from "../models/addressModel";
 import { AddressSuccessMessage } from "../enums/addressSuccessMessage";
 import { decodeToken } from "../utils/decodeToken";
 
@@ -12,7 +11,7 @@ export const getUserAddresses = async (req: Request, res: Response) => {
 
     res.status(200).send(addresses);
   } catch (err: any) {
-    res.status(404).send({ message: err.message });
+    res.status(404).send({ error: err.message });
   }
 };
 
@@ -25,7 +24,7 @@ export const getUserAddressById = async (req: Request, res: Response) => {
 
     res.status(200).send(address);
   } catch (err: any) {
-    res.status(404).send({ message: err.message });
+    res.status(404).send({ error: err.message });
   }
 };
 
@@ -36,7 +35,7 @@ export const addUserAddress = async (req: Request, res: Response) => {
     const address = await addressService.createAddress(userId, req.body);
     res.status(201).send(address);
   } catch (err: any) {
-    res.status(400).send(err.message);
+    res.status(400).send({ error: err.message });
   }
 };
 
@@ -53,7 +52,7 @@ export const updateUserAddress = async (req: Request, res: Response) => {
 
     res.status(200).send(address);
   } catch (err: any) {
-    res.status(400).send({ message: err.message });
+    res.status(400).send({ error: err.message });
   }
 };
 
@@ -68,6 +67,6 @@ export const deleteUserAddress = async (req: Request, res: Response) => {
 
     res.status(200).send({ message: AddressSuccessMessage.DELETE });
   } catch (err: any) {
-    res.status(400).send({ message: err.message });
+    res.status(400).send({ error: err.message });
   }
 };
