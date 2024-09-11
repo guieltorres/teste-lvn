@@ -50,7 +50,7 @@ export const updateUserAddress = async (req: Request, res: Response) => {
       req.body
     );
 
-    res.status(200).send(address);
+    res.status(200).send({ message: AddressSuccessMessage.UPDATE });
   } catch (err: any) {
     res.status(400).send({ error: err.message });
   }

@@ -40,7 +40,7 @@ export const userService = {
       return await newUser.populate("addresses");
     } catch (err: any) {
       if (err.code === 11000) {
-        throw new Error(UserErrorMessage.USER_ALREADY_EXISTS);
+        throw new Error(UserErrorMessage.EMAIL_OR_USERNAME_ALREADY_IN_USE);
       }
       throw new Error(UserErrorMessage.UNABLE_TO_SAVE_USER);
     }
@@ -53,20 +53,21 @@ export const userService = {
       throw new Error(UserErrorMessage.USER_NOT_FOUND);
     }
 
-    if (userData.email && userData.email !== user.email) {
-      const existingUser = await User.findOne({ email: userData.email });
+    const { name, email, age, addresses } = userData;
+
+    if (email && email !== user.email) {
+      const existingUser = await User.findOne({ email });
       if (existingUser) {
         throw new Error(UserErrorMessage.EMAIL_ALREADY_IN_USE);
       }
     }
 
-    if (userData.addresses) {
-      const addresses = await addressService.insertAddresses(
-        userData.addresses
-      );
-      user.set({ ...userData, addresses });
+    if (addresses) {
+      const updatedAddresses = await addressService.insertAddresses(addresses);
+
+      user.set({ name, email, age, addresses: updatedAddresses });
     } else {
-      user.set(userData);
+      user.set({ name, email, age });
     }
 
     return await user.save();

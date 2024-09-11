@@ -6,4 +6,5 @@ export enum UserErrorMessage {
   UNABLE_TO_RETRIEVE_ADDRESSES = "Unable to retrieve addresses.",
   USER_ALREADY_EXISTS = "User already exists.",
   EMAIL_ALREADY_IN_USE = "Email already in use.",
+  EMAIL_OR_USERNAME_ALREADY_IN_USE = "Email or username already in use.",
 }

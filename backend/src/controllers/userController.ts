@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import { userService } from "../services/userService";
 import { decodeToken } from "../utils/decodeToken";
 import { UserSuccessMessage } from "../enums/userSuccessMessage";
-import { Types } from "mongoose";
-import { AuthErrorMessage } from "../enums/authErrorMessage";
 
 export const getUser = async (req: Request, res: Response) => {
   try {
@@ -37,7 +35,11 @@ export const updateUser = async (req: Request, res: Response) => {
     const { userId } = decodeToken(req.headers.authorization || "");
     const updatedUser = await userService.updateUser(userId, req.body);
 
-    res.status(200).send({ user: updatedUser });
+    // Destructure to omit fields (e.g., password, sensitiveInfo)
+    const { password, username, status, ...userWithoutSensitiveFields } =
+      updatedUser.toObject();
+
+    res.status(200).send({ user: userWithoutSensitiveFields });
   } catch (err: any) {
     res.status(401).send({ error: err.message });
   }
