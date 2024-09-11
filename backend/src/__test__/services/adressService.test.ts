@@ -1,4 +1,3 @@
-import supertest from "supertest";
 import createServer from "../../utils/createServer";
 import { userService } from "../../services/userService";
 import { addressService } from "../../services/addressService";
