@@ -94,6 +94,8 @@ describe("userService", () => {
         .set("Authorization", `Bearer ${token}`)
         .send(updatedUserPayload);
 
+      console.log(body);
+
       expect(statusCode).toBe(200);
       expect(body.user.name).toBe(updatedUserPayload.name);
       expect(body.user.age).toBe(updatedUserPayload.age);

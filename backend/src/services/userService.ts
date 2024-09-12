@@ -5,6 +5,13 @@ import { UserStatus } from "../enums/userStatus";
 import { UserErrorMessage } from "../enums/userErrorMessage";
 import bcrypt from "bcrypt";
 
+interface UserUpdateData {
+  name?: string;
+  email?: string;
+  age?: number;
+  addresses?: string[];
+}
+
 export const userService = {
   getUserById: async (userId: string) => {
     try {
@@ -62,12 +69,17 @@ export const userService = {
       }
     }
 
+    const updatedUser: UserUpdateData = {};
+    if (name) updatedUser["name"] = name;
+    if (email) updatedUser["email"] = email;
+    if (age) updatedUser["age"] = age;
+
     if (addresses) {
       const updatedAddresses = await addressService.insertAddresses(addresses);
 
-      user.set({ name, email, age, addresses: updatedAddresses });
+      user.set({ ...updatedUser, addresses: updatedAddresses });
     } else {
-      user.set({ name, email, age });
+      user.set({ ...updatedUser });
     }
 
     return await user.save();

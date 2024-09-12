@@ -34,8 +34,6 @@ export const updateUser = async (req: Request, res: Response) => {
   try {
     const { userId } = decodeToken(req.headers.authorization || "");
     const updatedUser = await userService.updateUser(userId, req.body);
-
-    // Destructure to omit fields (e.g., password, sensitiveInfo)
     const { password, username, status, ...userWithoutSensitiveFields } =
       updatedUser.toObject();
 
